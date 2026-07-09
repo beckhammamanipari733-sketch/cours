@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EST317 · Series de Tiempo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --paper:#F6F3EC; --paper-line:#E4DFD0; --ink:#1C2340; --ink-soft:#565C7A;
+    --card:#FFFFFF; --shadow:rgba(28,35,64,0.08); --accent:#7A4FB8;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{
+    background:
+      linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 32px,
+      var(--paper);
+    color:var(--ink); font-family:'IBM Plex Sans', sans-serif;
+    padding:48px 24px 90px;
+  }
+  .wrap{ max-width:760px; margin:0 auto; }
+  a.back{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:'IBM Plex Mono', monospace; font-size:12px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); text-decoration:none; margin-bottom:28px;
+  }
+  a.back:hover{ color:var(--accent); }
+  header{
+    display:flex; align-items:center; gap:20px;
+    padding-bottom:26px; margin-bottom:30px; border-bottom:1.5px solid var(--ink);
+  }
+  .glyph{ width:60px; height:40px; color:var(--accent); flex-shrink:0; }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:12.5px; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--accent); font-weight:600;
+  }
+  h1{
+    font-family:'Newsreader', serif; font-weight:600;
+    font-size:clamp(28px, 5vw, 40px); line-height:1.08; margin-top:4px;
+  }
+  .meta{ display:flex; gap:18px; margin-top:10px; font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--ink-soft); }
+  .meta b{ color:var(--ink); }
+  .tag{
+    font-size:10.5px; font-family:'IBM Plex Mono', monospace; letter-spacing:0.06em;
+    text-transform:uppercase; padding:4px 9px; border-radius:20px;
+    background:color-mix(in srgb, var(--accent) 14%, white); color:var(--accent);
+  }
+  section{
+    background:var(--card); border:1px solid var(--paper-line); border-radius:10px;
+    box-shadow:0 1px 2px var(--shadow); padding:26px 28px; margin-bottom:16px;
+  }
+  h2{
+    font-family:'IBM Plex Mono', monospace; font-size:11.5px; text-transform:uppercase;
+    letter-spacing:0.1em; color:var(--accent); margin-bottom:10px;
+  }
+  p{ font-size:15px; color:var(--ink-soft); line-height:1.6; }
+  ul{ padding-left:20px; }
+  li{ font-size:14.5px; color:var(--ink-soft); line-height:1.7; }
+  li::marker{ color:var(--accent); }
+  footer{
+    max-width:760px; margin:40px auto 0; padding-top:16px; border-top:1px solid var(--paper-line);
+    font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <span class="glyph"><svg viewBox="0 0 60 40"><path d="M3 26 Q12 8 20 22 T36 14 T54 28" stroke="currentColor" stroke-width="2" fill="none"/></svg></span>
+    <div>
+      <span class="eyebrow">EST317</span>
+      <h1>Series de Tiempo</h1>
+      <div class="meta"><span><b>4.0</b> créditos</span><span class="tag">Econometría</span></div>
+    </div>
+  </header>
+
+  <section>
+    <h2>Sumilla</h2>
+    <p>Análisis y modelamiento de datos temporales mediante la metodología Box-Jenkins, con aplicaciones en EViews sobre series económicas y sociales reales.</p>
+  </section>
+
+  <section>
+    <h2>Objetivos</h2>
+    <ul>
+      <li>Evaluar estacionariedad mediante pruebas ADF y análisis ACF/PACF.</li>
+      <li>Identificar y estimar modelos ARIMA/SARIMA y ARX.</li>
+      <li>Modelar heterocedasticidad condicional con ARCH/GARCH.</li>
+      <li>Generar pronósticos y evaluar su precisión.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Unidades temáticas</h2>
+    <ul>
+      <li>Estacionariedad y descomposición de series</li>
+      <li>Metodología Box-Jenkins: ARIMA y SARIMA</li>
+      <li>Modelos ARX y heterocedasticidad (ARCH/GARCH)</li>
+      <li>Pronóstico y diagnóstico de residuos</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Bibliografía base</h2>
+    <p>Box, Jenkins, Reinsel &amp; Ljung — Time Series Analysis: Forecasting and Control.</p>
+  </section>
+
+</div>
+<footer>Ingeniería Estadística e Informática · UNA Puno · Semestre VI · 2026-I</footer>
+</body>
+</html>
