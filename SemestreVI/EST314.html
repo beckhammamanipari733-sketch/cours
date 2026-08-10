@@ -3,110 +3,558 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EST314 · Aprendizaje No Supervisado</title>
+<title>EST314 — Aprendizaje No Supervisado · Sílabo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+:root{
+  --ink:#1C2B3A;
+  --ink-soft:#4B5A6B;
+  --paper:#F8F4EC;
+  --paper-raised:#FFFEFA;
+  --line:#D8D0BC;
+  --line-soft:#E7E1D2;
+  --gold:#B8863B;
+  --accent:#2F6B62;
+  --accent-soft:#8FBBB2;
+  --radius:2px;
+  --serif:'Spectral', Georgia, 'Times New Roman', serif;
+  --sans:'IBM Plex Sans', -apple-system, Segoe UI, sans-serif;
+  --mono:'IBM Plex Mono', 'SFMono-Regular', Menlo, monospace;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent);}
 
-  :root{
-    --paper:#F6F3EC; --paper-line:#E4DFD0; --ink:#1C2340; --ink-soft:#565C7A;
-    --card:#FFFFFF; --shadow:rgba(28,35,64,0.08); --accent:#2E7D74;
-  }
-  *{ box-sizing:border-box; margin:0; padding:0; }
-  body{
-    background:
-      linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 32px,
-      var(--paper);
-    color:var(--ink); font-family:'IBM Plex Sans', sans-serif;
-    padding:48px 24px 90px;
-  }
-  .wrap{ max-width:760px; margin:0 auto; }
-  a.back{
-    display:inline-flex; align-items:center; gap:6px;
-    font-family:'IBM Plex Mono', monospace; font-size:12px; text-transform:uppercase;
-    letter-spacing:0.08em; color:var(--ink-soft); text-decoration:none; margin-bottom:28px;
-  }
-  a.back:hover{ color:var(--accent); }
-  header{
-    display:flex; align-items:center; gap:20px;
-    padding-bottom:26px; margin-bottom:30px; border-bottom:1.5px solid var(--ink);
-  }
-  .glyph{ width:60px; height:40px; color:var(--accent); flex-shrink:0; }
-  .eyebrow{
-    font-family:'IBM Plex Mono', monospace; font-size:12.5px; letter-spacing:0.12em;
-    text-transform:uppercase; color:var(--accent); font-weight:600;
-  }
-  h1{
-    font-family:'Newsreader', serif; font-weight:600;
-    font-size:clamp(28px, 5vw, 40px); line-height:1.08; margin-top:4px;
-  }
-  .meta{ display:flex; gap:18px; margin-top:10px; font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--ink-soft); }
-  .meta b{ color:var(--ink); }
-  .tag{
-    font-size:10.5px; font-family:'IBM Plex Mono', monospace; letter-spacing:0.06em;
-    text-transform:uppercase; padding:4px 9px; border-radius:20px;
-    background:color-mix(in srgb, var(--accent) 14%, white); color:var(--accent);
-  }
-  section{
-    background:var(--card); border:1px solid var(--paper-line); border-radius:10px;
-    box-shadow:0 1px 2px var(--shadow); padding:26px 28px; margin-bottom:16px;
-  }
-  h2{
-    font-family:'IBM Plex Mono', monospace; font-size:11.5px; text-transform:uppercase;
-    letter-spacing:0.1em; color:var(--accent); margin-bottom:10px;
-  }
-  p{ font-size:15px; color:var(--ink-soft); line-height:1.6; }
-  ul{ padding-left:20px; }
-  li{ font-size:14.5px; color:var(--ink-soft); line-height:1.7; }
-  li::marker{ color:var(--accent); }
-  footer{
-    max-width:760px; margin:40px auto 0; padding-top:16px; border-top:1px solid var(--paper-line);
-    font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-soft);
-  }
+/* ---------- topographic watermark ---------- */
+.topo{
+  position:absolute; inset:0; z-index:0;
+  opacity:.16; pointer-events:none;
+  mix-blend-mode:multiply;
+}
+
+/* ---------- shell ---------- */
+.sheet{
+  max-width:960px;
+  margin:0 auto;
+  background:var(--paper-raised);
+  min-height:100vh;
+  box-shadow:0 0 0 1px var(--line-soft);
+}
+@media (max-width:720px){
+  .sheet{box-shadow:none;}
+}
+
+/* ---------- vertical tab ---------- */
+.tab{
+  position:fixed;
+  top:0; left:0;
+  writing-mode:vertical-rl;
+  transform:rotate(180deg);
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  padding:18px 8px;
+  z-index:20;
+}
+.tab span{color:var(--accent);}
+@media (max-width:720px){ .tab{display:none;} }
+
+/* ---------- header ---------- */
+header.hero{
+  position:relative;
+  overflow:hidden;
+  background:var(--ink);
+  color:var(--paper);
+  padding:56px 64px 40px 88px;
+}
+@media (max-width:720px){
+  header.hero{padding:44px 24px 32px 24px;}
+}
+.eyebrow{
+  position:relative; z-index:1;
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--accent-soft);
+  display:flex; align-items:center; gap:10px;
+  margin-bottom:22px;
+}
+.eyebrow::before{
+  content:"";
+  width:26px; height:1px;
+  background:var(--accent-soft);
+  display:inline-block;
+}
+h1.course-title{
+  position:relative; z-index:1;
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:clamp(30px,4.6vw,44px);
+  line-height:1.08;
+  margin:0 0 18px 0;
+  max-width:14ch;
+}
+.code-line{
+  position:relative; z-index:1;
+  font-family:var(--mono);
+  font-size:14px;
+  color:var(--paper);
+  opacity:.78;
+  display:flex; flex-wrap:wrap; gap:6px 22px;
+}
+.code-line b{
+  color:var(--accent);
+  font-weight:600;
+}
+
+/* ---------- fact grid ---------- */
+.facts{
+  position:relative; z-index:1;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1px;
+  background:rgba(248,244,236,.14);
+  margin-top:34px;
+  border:1px solid rgba(248,244,236,.14);
+}
+@media (max-width:720px){ .facts{grid-template-columns:repeat(2,1fr);} }
+.fact{
+  background:var(--ink);
+  padding:16px 18px;
+}
+.fact .k{
+  font-family:var(--mono);
+  font-size:10.5px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--accent-soft);
+  margin-bottom:6px;
+}
+.fact .v{
+  font-family:var(--sans);
+  font-size:15px;
+  font-weight:600;
+  color:var(--paper);
+}
+
+/* ---------- body ---------- */
+main{padding:0 64px 80px 88px;}
+@media (max-width:720px){ main{padding:0 24px 60px 24px;} }
+
+section{
+  padding-top:52px;
+  border-top:1px solid var(--line);
+  margin-top:0;
+}
+section:first-of-type{border-top:none;}
+
+.sec-head{
+  display:flex;
+  align-items:baseline;
+  gap:16px;
+  margin-bottom:22px;
+}
+.sec-num{
+  font-family:var(--mono);
+  font-size:13px;
+  color:var(--accent);
+  border:1px solid var(--accent);
+  padding:2px 8px;
+  border-radius:var(--radius);
+  white-space:nowrap;
+}
+.sec-head h2{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:24px;
+  margin:0;
+  color:var(--ink);
+}
+
+.lead{
+  font-size:17px;
+  color:var(--ink-soft);
+  max-width:64ch;
+}
+
+/* competencias */
+.comp-list{list-style:none; margin:0; padding:0; display:grid; gap:14px;}
+.comp-list li{
+  position:relative;
+  padding-left:28px;
+  font-size:15.5px;
+  color:var(--ink);
+}
+.comp-list li::before{
+  content:"";
+  position:absolute; left:0; top:8px;
+  width:10px; height:10px;
+  border:2px solid var(--accent);
+  border-radius:50%;
+}
+
+/* unidades */
+.unidad{
+  border:1px solid var(--line);
+  border-left:3px solid var(--accent);
+  background:var(--paper-raised);
+  margin-bottom:22px;
+}
+.unidad-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+  padding:16px 20px;
+  border-bottom:1px solid var(--line-soft);
+  background:var(--paper);
+}
+.unidad-head h3{
+  font-family:var(--serif);
+  font-size:18px;
+  margin:0;
+  font-weight:600;
+}
+.unidad-weeks{
+  font-family:var(--mono);
+  font-size:12px;
+  color:var(--ink-soft);
+  letter-spacing:.06em;
+}
+.unidad-body{padding:18px 20px 20px;}
+.topic-grid{
+  list-style:none; margin:0; padding:0;
+  display:grid; gap:10px;
+}
+.topic-grid li{
+  display:grid;
+  grid-template-columns:22px 1fr;
+  gap:10px;
+  font-size:14.5px;
+  color:var(--ink);
+}
+.topic-grid li::before{
+  content:"";
+  height:1px; width:14px;
+  background:var(--accent);
+  margin-top:11px;
+}
+
+/* metodologia */
+.method-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+}
+@media (max-width:720px){ .method-grid{grid-template-columns:1fr;} }
+.method-cell{
+  background:var(--paper-raised);
+  padding:20px;
+}
+.method-cell .m-k{
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--accent);
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.method-cell p{margin:0; font-size:14.5px; color:var(--ink-soft);}
+
+/* evaluacion */
+table.eval{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14.5px;
+}
+table.eval th{
+  text-align:left;
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  padding:10px 14px;
+  border-bottom:2px solid var(--ink);
+}
+table.eval td{
+  padding:13px 14px;
+  border-bottom:1px solid var(--line-soft);
+  vertical-align:top;
+}
+table.eval tr:last-child td{border-bottom:1px solid var(--ink);}
+.pct{
+  font-family:var(--mono);
+  font-weight:600;
+  color:var(--accent);
+  white-space:nowrap;
+}
+.eval-bar{
+  height:6px;
+  background:var(--line-soft);
+  margin-top:6px;
+  position:relative;
+  overflow:hidden;
+}
+.eval-bar span{
+  position:absolute; left:0; top:0; bottom:0;
+  background:var(--accent);
+}
+
+/* bibliografia */
+.biblio{list-style:none; margin:0; padding:0; display:grid; gap:12px;}
+.biblio li{
+  font-size:14.5px;
+  color:var(--ink-soft);
+  padding-left:26px;
+  position:relative;
+}
+.biblio li b{color:var(--ink);}
+.biblio li::before{
+  content:"→";
+  position:absolute; left:0; top:0;
+  color:var(--accent);
+  font-family:var(--mono);
+}
+
+/* footer */
+footer{
+  border-top:1px solid var(--line);
+  margin-top:60px;
+  padding:26px 64px 32px 88px;
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+  font-family:var(--mono);
+  font-size:11.5px;
+  color:var(--ink-soft);
+  letter-spacing:.03em;
+}
+@media (max-width:720px){ footer{padding:22px 24px 28px;} }
+footer a{color:var(--ink-soft); text-decoration:none; border-bottom:1px dotted var(--ink-soft);}
+
+/* nav strip (links between courses) */
+.course-nav{
+  padding:14px 64px 0 88px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+@media (max-width:720px){ .course-nav{padding:14px 24px 0;} }
+.course-nav a{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.05em;
+  text-decoration:none;
+  color:var(--ink-soft);
+  border:1px solid var(--line);
+  padding:5px 10px;
+  border-radius:var(--radius);
+}
+.course-nav a.current{
+  color:var(--paper);
+  background:var(--ink);
+  border-color:var(--ink);
+}
+.course-nav a:hover{border-color:var(--accent); color:var(--accent);}
+
+@media print{
+  .tab, .course-nav{display:none;}
+  body{background:#fff;}
+  header.hero{background:#fff !important; color:#111 !important;}
+  .facts{background:#ddd;}
+  .fact{background:#fff; border:1px solid #ccc;}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <header>
-    <span class="glyph"><svg viewBox="0 0 60 40"><g stroke="currentColor" stroke-width="1.6"><line x1="10" y1="8" x2="10" y2="32"/><line x1="10" y1="8" x2="24" y2="8"/><line x1="10" y1="20" x2="24" y2="20"/><line x1="24" y1="8" x2="24" y2="14"/><line x1="24" y1="14" x2="38" y2="14"/><line x1="24" y1="20" x2="24" y2="26"/><line x1="24" y1="26" x2="38" y2="26"/><line x1="38" y1="14" x2="38" y2="20"/><line x1="38" y1="20" x2="52" y2="20"/></g></svg></span>
-    <div>
-      <span class="eyebrow">EST314</span>
-      <h1>Aprendizaje No Supervisado</h1>
-      <div class="meta"><span><b>4.0</b> créditos</span><span class="tag">Machine Learning</span></div>
+<div class="tab">SÍLABO <span>·</span> ING. ESTADÍSTICA E INFORMÁTICA <span>·</span> UNA PUNO</div>
+
+<div class="sheet">
+
+  <nav class="course-nav">
+    <a class="" href="EST209.html">EST209</a>
+<a class="" href="EST210.html">EST210</a>
+<a class="current" href="EST314.html">EST314</a>
+<a class="" href="EST315.html">EST315</a>
+<a class="" href="EST316.html">EST316</a>
+<a class="" href="EST317.html">EST317</a>
+  </nav>
+
+  <header class="hero">
+    <svg class="topo" viewBox="0 0 900 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M-20,420 C120,380 180,460 300,410 C420,360 460,440 600,400 C720,370 780,430 920,390" stroke="#8FBBB2" stroke-width="1" fill="none" opacity=".5"/>
+<path d="M-20,460 C140,420 200,480 320,440 C440,400 500,460 640,430 C740,410 800,450 920,420" stroke="#8FBBB2" stroke-width="1" fill="none" opacity=".4"/>
+<path d="M-20,60 C100,20 160,90 280,50 C400,10 460,80 600,45 C700,20 780,70 920,35" stroke="#8FBBB2" stroke-width="1" fill="none" opacity=".35"/>
+<path d="M-20,110 C120,70 190,130 310,95 C430,60 480,120 620,90 C730,68 790,110 920,80" stroke="#8FBBB2" stroke-width="1" fill="none" opacity=".28"/>
+<path d="M-20,160 C140,125 200,175 330,145 C440,120 520,165 640,140 C740,120 800,155 920,130" stroke="#8FBBB2" stroke-width="1" fill="none" opacity=".2"/>
+</svg>
+    <div class="eyebrow">Semestre VI &nbsp;·&nbsp; 2026-I &nbsp;·&nbsp; Escuela Profesional de Ingeniería Estadística e Informática</div>
+    <h1 class="course-title">Aprendizaje No Supervisado</h1>
+    <div class="code-line">
+      <span>Código <b>EST314</b></span>
+      <span>Créditos <b>4</b></span>
+      <span>Horas <b>2T + 4P</b></span>
+      <span>Carácter <b>Obligatorio</b></span>
+    </div>
+    <div class="facts">
+      <div class="fact"><div class="k">Docente</div><div class="v">Leonid Alemán Gonzales</div></div>
+      <div class="fact"><div class="k">Ciclo</div><div class="v">VI — 2026-I</div></div>
+      <div class="fact"><div class="k">Prerrequisito</div><div class="v">Minería de Datos / Estadística Multivariada</div></div>
+      <div class="fact"><div class="k">Modalidad</div><div class="v">Presencial</div></div>
     </div>
   </header>
 
-  <section>
-    <h2>Sumilla</h2>
-    <p>Técnicas de agrupamiento y reducción de dimensionalidad para descubrir estructura en datos sin etiquetas. Incluye implementación práctica en notebooks.</p>
-  </section>
+  <main>
 
-  <section>
-    <h2>Objetivos</h2>
-    <ul>
-      <li>Aplicar algoritmos de clustering particional, jerárquico y basado en densidad.</li>
-      <li>Evaluar calidad de agrupamientos con métricas internas y externas.</li>
-      <li>Visualizar clusters de alta dimensión mediante técnicas de reducción.</li>
-      <li>Interpretar resultados en contextos reales (segmentación, geoanálisis).</li>
+    <section id="sumilla">
+      <div class="sec-head"><span class="sec-num">I</span><h2>Sumilla</h2></div>
+      <p class="lead">Curso teórico-práctico que aborda técnicas de aprendizaje automático sin variable objetivo: reducción de dimensionalidad, agrupamiento (clustering) y reglas de asociación. Se desarrolla íntegramente en notebooks de Python (pandas, scikit-learn, umap-learn) sobre datasets reales, culminando en un trabajo de segmentación de clientes.</p>
+    </section>
+
+    <section id="competencias">
+      <div class="sec-head"><span class="sec-num">II</span><h2>Competencias</h2></div>
+      <ul class="comp-list">
+        <li>Aplica técnicas de reducción de dimensionalidad (PCA, LDA, t-SNE, UMAP) para explorar y visualizar datos de alta dimensión.</li>
+<li>Implementa y evalúa algoritmos de clustering particional (K-Means), jerárquico y basado en densidad (DBSCAN).</li>
+<li>Selecciona el número óptimo de grupos y valida particiones mediante métricas internas (silhouette, codo) y externas (Adjusted Rand Index).</li>
+<li>Extrae reglas de asociación (Apriori) e integra clustering con reducción de dimensionalidad en un proyecto de segmentación aplicado.</li>
+      </ul>
+    </section>
+
+    <section id="programacion">
+      <div class="sec-head"><span class="sec-num">III</span><h2>Programación de contenidos</h2></div>
+      <div class="unidad">
+  <div class="unidad-head">
+    <h3>Unidad 1 — Reducción de dimensionalidad</h3>
+    <span class="unidad-weeks">Semanas 1–8</span>
+  </div>
+  <div class="unidad-body">
+    <ul class="topic-grid">
+      <li>Maldición de la dimensionalidad y redundancia de variables</li>
+<li>Selección de características: filtro, wrapper y embedded</li>
+<li>Análisis de Componentes Principales (PCA) y varianza explicada</li>
+<li>Análisis Discriminante Lineal (LDA) supervisado vs. PCA</li>
+<li>t-SNE y UMAP para visualización no lineal</li>
+<li>Aplicación en datasets Iris, Breast Cancer y CIFAR-10</li>
+<li>Introducción a autoencoders para reducción no lineal</li>
     </ul>
-  </section>
-
-  <section>
-    <h2>Unidades temáticas</h2>
-    <ul>
-      <li>K-Means y variantes</li>
-      <li>Clustering jerárquico y dendrogramas</li>
-      <li>DBSCAN y métodos basados en densidad</li>
-      <li>Reducción de dimensionalidad y visualización</li>
+  </div>
+</div>
+<div class="unidad">
+  <div class="unidad-head">
+    <h3>Unidad 2 — Clustering y reglas de asociación</h3>
+    <span class="unidad-weeks">Semanas 9–17</span>
+  </div>
+  <div class="unidad-body">
+    <ul class="topic-grid">
+      <li>K-Means: método del codo y coeficiente de silueta</li>
+<li>Clustering jerárquico aglomerativo: dendrogramas y enlaces (ward, complete, average, single)</li>
+<li>DBSCAN: core/border/noise points, selección de eps con gráfico k-distancia</li>
+<li>Comparación K-Means vs. DBSCAN en estructuras no convexas (moons, circles)</li>
+<li>Evaluación de particiones: silhouette, Adjusted Rand Index</li>
+<li>Reglas de asociación con el algoritmo Apriori</li>
+<li>Trabajo final: segmentación de clientes (Customer Personality Analysis) con PCA + clustering + Apriori</li>
     </ul>
-  </section>
+  </div>
+</div>
+    </section>
 
-  <section>
-    <h2>Bibliografía base</h2>
-    <p>Hastie, Tibshirani &amp; Friedman — The Elements of Statistical Learning.</p>
-  </section>
+    <section id="metodologia">
+      <div class="sec-head"><span class="sec-num">IV</span><h2>Metodología</h2></div>
+      <div class="method-grid">
+        <div class="method-cell"><div class="m-k">Notebooks guiados</div><p>Cada sesión se desarrolla en un notebook de Python con teoría, código y actividades de cierre.</p></div>
+<div class="method-cell"><div class="m-k">Aprendizaje basado en datos reales</div><p>Los algoritmos se aplican sobre datasets públicos (Iris, Country-data, Breast Cancer, CIFAR-10, Customer Personality Analysis).</p></div>
+<div class="method-cell"><div class="m-k">Trabajo final integrador</div><p>Proyecto de segmentación de clientes que combina reducción de dimensionalidad, clustering y reglas de asociación, documentado en formato IEEE.</p></div>
+      </div>
+    </section>
+
+    <section id="evaluacion">
+      <div class="sec-head"><span class="sec-num">V</span><h2>Sistema de evaluación</h2></div>
+      <table class="eval">
+        <thead><tr><th>Componente</th><th>Descripción</th><th style="text-align:right">Peso</th></tr></thead>
+        <tbody>
+          <tr>
+  <td><b>Prácticas de notebook</b></td>
+  <td>Actividades de cierre de cada sesión (PCA, clustering, DBSCAN, Apriori)</td>
+  <td style="text-align:right">
+    <span class="pct">25%</span>
+    <div class="eval-bar"><span style="width:25%"></span></div>
+  </td>
+</tr>
+<tr>
+  <td><b>Examen Unidad I</b></td>
+  <td>Reducción de dimensionalidad</td>
+  <td style="text-align:right">
+    <span class="pct">20%</span>
+    <div class="eval-bar"><span style="width:20%"></span></div>
+  </td>
+</tr>
+<tr>
+  <td><b>Examen Unidad II</b></td>
+  <td>Clustering avanzado y reglas de asociación</td>
+  <td style="text-align:right">
+    <span class="pct">20%</span>
+    <div class="eval-bar"><span style="width:20%"></span></div>
+  </td>
+</tr>
+<tr>
+  <td><b>Exposición del trabajo final</b></td>
+  <td>Sustentación de la segmentación de clientes</td>
+  <td style="text-align:right">
+    <span class="pct">10%</span>
+    <div class="eval-bar"><span style="width:10%"></span></div>
+  </td>
+</tr>
+<tr>
+  <td><b>Informe final (IEEE)</b></td>
+  <td>Documento del trabajo de segmentación de clientes</td>
+  <td style="text-align:right">
+    <span class="pct">25%</span>
+    <div class="eval-bar"><span style="width:25%"></span></div>
+  </td>
+</tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="bibliografia">
+      <div class="sec-head"><span class="sec-num">VI</span><h2>Bibliografía</h2></div>
+      <ul class="biblio">
+        <li><b>Hastie, T., Tibshirani, R., & Friedman, J.</b> — The Elements of Statistical Learning.</li>
+<li><b>Han, J., Kamber, M., & Pei, J.</b> — Data Mining: Concepts and Techniques.</li>
+<li><b>Ester, M. et al.</b> — A Density-Based Algorithm for Discovering Clusters (DBSCAN, 1996).</li>
+<li><b>McInnes, L., Healy, J., & Melville, J.</b> — UMAP: Uniform Manifold Approximation and Projection.</li>
+<li>Documentación oficial de <b>scikit-learn</b> (clustering, decomposition, manifold).</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>
+    <span>Escuela Profesional de Ingeniería Estadística e Informática — UNA Puno</span>
+    <span>EST314 · Semestre VI · 2026-I</span>
+  </footer>
 
 </div>
-<footer>Ingeniería Estadística e Informática · UNA Puno · Semestre VI · 2026-I</footer>
 </body>
 </html>
